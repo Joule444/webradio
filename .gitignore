@@ -1,0 +1,15 @@
+# Fichiers Django inutiles
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+db.sqlite3
+media/
+
+# Environnement virtuel
+venv/
+env/
+*.env
+
+# Configs locales
+*.log
