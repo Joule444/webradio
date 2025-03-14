@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Webradio{% endblock %}</title>
+</head>
+<body>
+
+    <header>
+        <h1>Ma Webradio</h1>
+        <nav>
+            <ul>
+				<li>Accueil</li>
+				<li>Agenda</li>
+				<li>Contact</li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+		<div id="player-container">
+			<button id="playButton">▶️ Play</button>
+		</div>
+        <p>Musique en cours : <strong id="current-song-footer"></strong></p>
+    </footer>
+
+	<script>
+		let audio = new Audio("http://141.95.149.137:8000/radio");
+        let isPlaying = false;
+
+        document.getElementById("playButton").addEventListener("click", function () {
+            if (!isPlaying) {
+                audio.play();
+                this.innerText = "⏹️ Stop";
+            } else {
+                audio.pause();
+                audio.currentTime = 0;
+                this.innerText = "▶️ Play";
+            }
+            isPlaying = !isPlaying;
+        });
+	</script>
+
+    <script>
+        function updateCurrentSong() {
+            fetch('/current-song/')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('current-song-footer').innerText = data.current_song;
+                })
+                .catch(error => console.error('Erreur AJAX:', error));
+        }
+
+        setInterval(updateCurrentSong, 5000);
+    </script>
+
+</body>
+</html>

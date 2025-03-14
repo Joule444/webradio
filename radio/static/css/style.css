@@ -1,0 +1,9 @@
+#player-container {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #111;
+    padding: 10px;
+    text-align: center;
+    z-index: 1000;
+}

@@ -19,7 +19,7 @@ def get_current_song():
 		else:
 			current_song = "Aucune musique en cours"
 
-	except requests.exception.RequestException as e:
+	except requests.exceptions.RequestException as e:
 		print(f"Erreur de requete : {e}")
 		current_song = "Impossible de récupérer les infos"
 

@@ -1,35 +1,32 @@
-<!DOCTYPE html>
-<html lang="fr">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Webradio</title>
-	</head>
-	<body>
-		<h1>Bienvenue sur notre Webradio</h1>
+{% extends 'base.html' %}
 
-		<h2>Ecoutez maintenant :</h2>
-		<audio controls>
-			<source src="http://141.95.149.137:8000/radio" type="audio/mp3">
-			Votre navigateur ne supporte pas l'element audio.
-		</audio>
+{% block content %}
+    <!-- <h1>Bienvenue sur notre Webradio</h1>
 
-		<script>
-			function updateCurrentSong() {
-				fetch('/current-song/')
-				.then(response => response.json())
-				.then(data => {
-					document.getElementById('current-song').innerText = data.current_song;
-				})
-				.catch(error => console.error('Erreur lors de la mise a jour du titre:', error));
-			}
-			
-			setInterval(updateCurrentSong, 10000);
-			</script>
+    <h2>Écoutez maintenant :</h2>
+    <audio controls>
+        <source src="http://141.95.149.137:8000/radio" type="audio/mp3">
+        Votre navigateur ne supporte pas l'élément audio.
+    </audio>
 
-		<div>
-			<p>Musique en cours : <strong id="current-song">{{ current_song }}</strong></p>
-		</div>
+    <div>
+        <p>Musique en cours : <strong id="current-song">{{ current_song }}</strong></p>
+    </div>
 
-	</body>
-</html>
+    <script>
+        function updateCurrentSong() {
+            fetch('/current-song/')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('current-song').innerText = data.current_song;
+                })
+                .catch(error => console.error('Erreur lors de la mise à jour du titre:', error));
+        }
+
+        setInterval(updateCurrentSong, 10000);
+    </script> -->
+	<h1>Home</h1>
+	<div>
+		<p>Pleins d'infos ici !</p>
+	</div>
+{% endblock %}

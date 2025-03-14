@@ -55,7 +55,7 @@ ROOT_URLCONF = 'webradio.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'radio/templates/radio'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
