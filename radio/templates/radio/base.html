@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core/main.min.css" rel="stylesheet" />
+	<link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid/main.min.css" rel="stylesheet" />
     <title>{% block title %}Webradio{% endblock %}</title>
 </head>
 <body>
@@ -11,8 +13,8 @@
         <h1>Ma Webradio</h1>
         <nav>
             <ul>
-				<li>Accueil</li>
-				<li>Agenda</li>
+				<li><a href="/">Accueil</a></li>
+				<li><a href="/agenda/">Agenda</a></li>
 				<li>Contact</li>
             </ul>
         </nav>
@@ -36,11 +38,11 @@
 
         document.getElementById("playButton").addEventListener("click", function () {
             if (!isPlaying) {
+				audio.load();
                 audio.play();
                 this.innerText = "⏹️ Stop";
             } else {
                 audio.pause();
-                audio.currentTime = 0;
                 this.innerText = "▶️ Play";
             }
             isPlaying = !isPlaying;
@@ -57,7 +59,12 @@
                 .catch(error => console.error('Erreur AJAX:', error));
         }
 
-        setInterval(updateCurrentSong, 5000);
+		// Premiere requete a chaque refresh de la page
+		document.addEventListener('DOMContentLoaded', function() {
+            updateCurrentSong();
+        });
+
+        setInterval(updateCurrentSong, 12000);
     </script>
 
 </body>

@@ -1,6 +1,21 @@
 import requests
 from django.shortcuts import render
 from django.http import JsonResponse
+from .models import Event
+
+def get_events(request):
+	events = Event.objects.all()
+	events_list = []
+	for event in events:
+		events_list.append({
+			'title': event.title,
+			'start': event.start.isoformat(),
+			'end': event.end.isoformat(),
+		})
+	return JsonResponse(events_list, safe=False)
+
+def agenda(request):
+	return render(request, 'radio/agenda.html')
 
 def get_current_song():
 	url = "http://141.95.149.137:8000/status-json.xsl"
