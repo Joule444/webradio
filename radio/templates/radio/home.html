@@ -14,8 +14,22 @@
 			Votre navigateur ne supporte pas l'element audio.
 		</audio>
 
+		<script>
+			function updateCurrentSong() {
+				fetch('/current-song/')
+				.then(response => response.json())
+				.then(data => {
+					document.getElementById('current-song').innerText = data.current_song;
+				})
+				.catch(error => console.error('Erreur lors de la mise a jour du titre:', error));
+			}
+			
+			setInterval(updateCurrentSong, 10000);
+			</script>
+
 		<div>
-			<p>Musique en cours : <strong>{{ current_song }}</strong></p>
+			<p>Musique en cours : <strong id="current-song">{{ current_song }}</strong></p>
 		</div>
+
 	</body>
 </html>

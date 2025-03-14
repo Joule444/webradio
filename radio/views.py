@@ -1,5 +1,6 @@
 import requests
 from django.shortcuts import render
+from django.http import JsonResponse
 
 def get_current_song():
 	url = "http://141.95.149.137:8000/status-json.xsl"
@@ -23,6 +24,10 @@ def get_current_song():
 		current_song = "Impossible de récupérer les infos"
 
 	return current_song
+
+def current_song_api(request):
+	current_song = get_current_song()
+	return JsonResponse({'current_song': current_song})
 
 def home(request):
 	current_song = get_current_song()
