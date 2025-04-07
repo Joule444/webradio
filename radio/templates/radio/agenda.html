@@ -4,20 +4,31 @@
 
 	<h2>Agenda des emissions</h2>
 
-	<div id="calendar"></div>
+	<div id="calendar">
+		<ul id="events-list">
+
+		</ul>
+	</div>
 
 	<script>
-		$(document).ready(function() {
-			$('#calendar').fullCalendar({
-				events: '/api/events',
-				locale: 'fr',
-				header: {
-					left: 'prev,next today',
-					center: 'title',
-					right: 'month,agendaWeek,agendaDay'
-				},
-			});
-		});
-	  </script>
+		document.addEventListener('DOMContentLoaded', function () {
+			fetch('/api/events/')
+			.then(response => response.json())
+			.then(data => {
+				// console.log("DATA RECUE :", data);
+				// console.log("TYPE :", typeof data);
+
+				const	list = document.getElementById('events-list');
+				data.forEach(event => {
+					const	li = document.createElement('li');
+					li.innerText = `${event.title} - du ${new Date(event.start_time).toLocaleString()} au ${new Date(event.end_time).toLocaleString()}`;
+					list.appendChild(li);
+				});
+			})
+			.catch(error => {
+				console.error('Erreur en recuperant les events:', error);
+			})
+		})
+	</script>
 
 {% endblock %}

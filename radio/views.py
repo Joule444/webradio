@@ -9,8 +9,8 @@ def get_events(request):
 	for event in events:
 		events_list.append({
 			'title': event.title,
-			'start': event.start.isoformat(),
-			'end': event.end.isoformat(),
+			'start_time': event.start_time.isoformat(),
+			'end_time': event.end_time.isoformat(),
 		})
 	return JsonResponse(events_list, safe=False)
 
