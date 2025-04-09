@@ -2,26 +2,35 @@ import requests
 from django.shortcuts import render
 from django.http import JsonResponse
 from .models import EventInstance
-from datetime import datetime, timedelta, timezone
-from django.utils.timezone import make_aware
+from datetime import datetime, timedelta
+from django.utils.timezone import now, make_aware
 
 def get_events(request):
-	from_date = make_aware(datetime.now(), timezone=timezone.utc)
-	to_date = from_date + timedelta(days=30)
+	day_param = request.GET.get('day')
+	today = now().date()
 
-	all_instances = EventInstance.objects.all()
+	if day_param is not None:
+		day_index = int(day_param)
+		if (day_index == 0):
+			day_index = 6
+		else:
+			day_index -= 1
+		target_day = today - timedelta(days=today.weekday() - day_index)
+		start = make_aware(datetime.combine(target_day, datetime.min.time()))
+		end = start + timedelta(days=1)
+	else:
+		start = make_aware(datetime.combine(today, datetime.min.time()))
+		end = start + timedelta(days=7)
+
 	events_list = []
-
-	for instance in all_instances:
-		occurrences = instance.get_occurrences(from_date, to_date)
-		for start_time, end_time in occurrences:
+	for instance in EventInstance.objects.all():
+		occurrences = instance.get_occurrences(start, end)
+		for occ_start, occ_end in occurrences:
 			events_list.append({
 				'title': instance.event.title,
-				'start_time': start_time.isoformat(),
-				'end_time': end_time.isoformat(),
+				'start_time': occ_start.isoformat(),
+				'end_time': occ_end.isoformat(),
 			})
-
-	events_list.sort(key=lambda x: x['start_time'])
 
 	return JsonResponse(events_list, safe=False)
 

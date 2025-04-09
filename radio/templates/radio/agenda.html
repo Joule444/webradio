@@ -4,28 +4,50 @@
 
 	<h2>Agenda des emissions</h2>
 
-	<div id="calendar">
-		<ul id="events-list">
+	<div id="agenda-tabs">
+		<button class="day-tab" data-day="1">Lundi</button>
+		<button class="day-tab" data-day="2">Mardi</button>
+		<button class="day-tab" data-day="3">Mercredi</button>
+		<button class="day-tab" data-day="4">Jeudi</button>
+		<button class="day-tab" data-day="5">Vendredi</button>
+		<button class="day-tab" data-day="6">Samedi</button>
+		<button class="day-tab" data-day="0">Dimanche</button>
+	</div>
 
-		</ul>
+	<div id="agenda-content">
+
 	</div>
 
 	<script>
-		document.addEventListener('DOMContentLoaded', function () {
-			fetch('/api/events/')
-			.then(response => response.json())
-			.then(data => {
-				const	list = document.getElementById('events-list');
-				data.forEach(event => {
-					const	li = document.createElement('li');
-					li.innerText = `${event.title} - du ${new Date(event.start_time).toLocaleString()} au ${new Date(event.end_time).toLocaleString()}`;
-					list.appendChild(li);
+		document.querySelectorAll('.day-tab').forEach(button => {
+			button.addEventListener('click', () => {
+				const day = button.dataset.day;
+
+				console.log("Button Day = ", day);
+				fetch(`/api/events/?day=${day}`)
+				.then(response => response.json())
+				.then(events_instances => {
+					const container = document.getElementById('agenda-content');
+					container.innerHTML = ''
+
+					if (events_instances.length === 0) {
+						container.innerHTML = '<p>Aucune emission prevue ce jour-la</p>';
+					} else {
+						events_instances.sort((a, b) => new Date(a.start_time) - new Date(b.start_time));
+
+						events_instances.forEach(event_instance => {
+							const start_time = new Date(event_instance.start_time).toLocaleString();
+							const end_time = new Date(event_instance.end_time).toLocaleString();
+							container.innerHTML += `<div>${event_instance.title} - du ${start_time} au ${end_time}</div>`
+						});
+					}
 				});
-			})
-			.catch(error => {
-				console.error('Erreur en recuperant les events:', error);
-			})
-		})
+			});
+		});
+
+		const today = new Date().getDay();
+		console.log("Today = ", today);
+		document.querySelector(`.day-tab[data-day="${today}"]`)?.click();
 	</script>
 
 {% endblock %}
