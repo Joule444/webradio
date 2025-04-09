@@ -15,9 +15,6 @@
 			fetch('/api/events/')
 			.then(response => response.json())
 			.then(data => {
-				// console.log("DATA RECUE :", data);
-				// console.log("TYPE :", typeof data);
-
 				const	list = document.getElementById('events-list');
 				data.forEach(event => {
 					const	li = document.createElement('li');

@@ -1,17 +1,28 @@
 import requests
 from django.shortcuts import render
 from django.http import JsonResponse
-from .models import Event
+from .models import EventInstance
+from datetime import datetime, timedelta, timezone
+from django.utils.timezone import make_aware
 
 def get_events(request):
-	events = Event.objects.all()
+	from_date = make_aware(datetime.now(), timezone=timezone.utc)
+	to_date = from_date + timedelta(days=30)
+
+	all_instances = EventInstance.objects.all()
 	events_list = []
-	for event in events:
-		events_list.append({
-			'title': event.title,
-			'start_time': event.start_time.isoformat(),
-			'end_time': event.end_time.isoformat(),
-		})
+
+	for instance in all_instances:
+		occurrences = instance.get_occurrences(from_date, to_date)
+		for start_time, end_time in occurrences:
+			events_list.append({
+				'title': instance.event.title,
+				'start_time': start_time.isoformat(),
+				'end_time': end_time.isoformat(),
+			})
+
+	events_list.sort(key=lambda x: x['start_time'])
+
 	return JsonResponse(events_list, safe=False)
 
 def agenda(request):
