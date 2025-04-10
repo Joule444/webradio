@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from .models import EventInstance
 from datetime import datetime, timedelta
-from django.utils.timezone import now, make_aware
+from django.utils.timezone import now, make_aware, localtime
 
 def get_events(request):
 	day_param = request.GET.get('day')

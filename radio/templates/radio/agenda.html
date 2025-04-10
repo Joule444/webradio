@@ -19,11 +19,32 @@
 	</div>
 
 	<script>
+		// function formatDate(date) {
+		// 	const options = { weekday: 'long', day: 'numeric' };
+		// 	return date.toLocaleDateString('fr-FR', options);
+		// }
+
+		// function setDayDate() {
+		// 	const today = new Date();
+
+		// 	document.querySelectorAll('.day-tab').forEach((button, index) => {
+		// 		const newDate = new Date(today);
+		// 		newDate.setDate(today.getDate() + ((index + 7 - today.getDay()) % 7));
+
+		// 		console.log(`Date calculée: ${newDate}`);
+
+		// 		const formattedDate = formatDate(newDate);
+		// 		console.log(`Date formatée: ${formattedDate}`);
+
+		// 		button.innerHTML = `${formattedDate}`;
+		// 	});
+		// }
+
 		document.querySelectorAll('.day-tab').forEach(button => {
 			button.addEventListener('click', () => {
 				const day = button.dataset.day;
 
-				console.log("Button Day = ", day);
+				console.log("Button Day = ", day); 
 				fetch(`/api/events/?day=${day}`)
 				.then(response => response.json())
 				.then(events_instances => {
@@ -36,9 +57,15 @@
 						events_instances.sort((a, b) => new Date(a.start_time) - new Date(b.start_time));
 
 						events_instances.forEach(event_instance => {
-							const start_time = new Date(event_instance.start_time).toLocaleString();
-							const end_time = new Date(event_instance.end_time).toLocaleString();
-							container.innerHTML += `<div>${event_instance.title} - du ${start_time} au ${end_time}</div>`
+							const start_time = new Date(event_instance.start_time);
+							const end_time = new Date(event_instance.end_time);
+
+							const formatTime = date => date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit'});
+
+							const startFormatted = formatTime(start_time);
+							const endFormatted = formatTime(end_time);
+
+							container.innerHTML += `<div>${startFormatted} - ${endFormatted} &nbsp; ${event_instance.title}</div>`
 						});
 					}
 				});
@@ -48,6 +75,7 @@
 		const today = new Date().getDay();
 		console.log("Today = ", today);
 		document.querySelector(`.day-tab[data-day="${today}"]`)?.click();
+		// setDayDate();
 	</script>
 
 {% endblock %}
