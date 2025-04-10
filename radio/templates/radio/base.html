@@ -3,17 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Webradio{% endblock %}</title>
+    <title>{% block title %}Potron-Minet{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barrio&family=Kirang+Haerang&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <header>
-        <h1>Ma Webradio</h1>
+        <h1 class="main-title">Potron-Minet</h1>
         <nav>
             <ul>
-				<li><a href="/">Accueil</a></li>
-				<li><a href="/agenda/">Agenda</a></li>
-				<li>Contact</li>
+				<li class="nav-tab"><a href="/">Accueil</a></li>
+				<li class="nav-tab"><a href="/programme/">Programme</a></li>
+				<li class="nav-tab">Contact</li>
+                <li class="nav-tab">A propos</li>
             </ul>
         </nav>
     </header>

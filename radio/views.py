@@ -34,8 +34,8 @@ def get_events(request):
 
 	return JsonResponse(events_list, safe=False)
 
-def agenda(request):
-	return render(request, 'radio/agenda.html')
+def programme(request):
+	return render(request, 'radio/programme.html')
 
 def get_current_song():
 	url = "http://141.95.149.137:8000/status-json.xsl"

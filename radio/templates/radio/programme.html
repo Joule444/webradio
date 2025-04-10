@@ -2,9 +2,9 @@
 
 {% block content %}
 
-	<h2>Agenda des emissions</h2>
+	<h2>Programme</h2>
 
-	<div id="agenda-tabs">
+	<div id="programme-tabs">
 		<button class="day-tab" data-day="1">Lundi</button>
 		<button class="day-tab" data-day="2">Mardi</button>
 		<button class="day-tab" data-day="3">Mercredi</button>
@@ -14,7 +14,7 @@
 		<button class="day-tab" data-day="0">Dimanche</button>
 	</div>
 
-	<div id="agenda-content">
+	<div id="programme-content">
 
 	</div>
 
@@ -48,7 +48,7 @@
 				fetch(`/api/events/?day=${day}`)
 				.then(response => response.json())
 				.then(events_instances => {
-					const container = document.getElementById('agenda-content');
+					const container = document.getElementById('programme-content');
 					container.innerHTML = ''
 
 					if (events_instances.length === 0) {
